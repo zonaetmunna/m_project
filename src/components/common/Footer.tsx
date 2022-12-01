@@ -7,7 +7,7 @@ const { Footer: AntFooter } = Layout;
 const Footer = () => {
 
   return (
-    <Row className="site-layout-background">
+    <Row >
       <Col xs={12} sm={12} md={12} lg={12} xl={12}>
         <AntFooter>Footer</AntFooter>
       </Col>

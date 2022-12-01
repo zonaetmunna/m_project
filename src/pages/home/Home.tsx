@@ -9,11 +9,16 @@ import {
 import { Col, Row } from 'antd';
 import { Layout, Menu } from 'antd';
 import Header from '../../components/common/Header';
+import { useProductsQuery } from '../../services/api';
 
 const {  Footer, Sider, Content } = Layout;
 
 const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
+  // redux
+  const { data, error, isLoading, isFetching } = useProductsQuery();
+  
+  console.log(data);
 
   return (
     <Layout>
@@ -71,8 +76,18 @@ const Home = () => {
                 
               }}
             >
-                  <div>
-                    this is
+              <div>
+                {
+                  data?.map(product => {
+                    return (
+                      <div>
+                        <h1>{product?.flight_number}</h1>
+                        <p>{product?.mission_name}</p>
+                        <p>{product.launch_date_local}</p>
+                      </div>
+                    )
+                  })
+                }
               </div>
             </Content>
           </Layout>
