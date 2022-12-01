@@ -5,10 +5,10 @@ const { Header: AntHeader } = Layout;
 
 const Header = () => {
   return (
-    <Row className="site-layout-background">
+    <Row>
       <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-        <AntHeader>
-          <h1>thhi</h1>
+        <AntHeader className="site-layout-sub-header-background" style={{ padding: 0 }} >
+          <h1>launch</h1>
         </AntHeader>
       </Col>
     </Row>

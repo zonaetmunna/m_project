@@ -1,111 +1,100 @@
 import React, { useState } from 'react';
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-} from '@ant-design/icons'
+import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import { Col, Row } from 'antd';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Input } from 'antd';
+import { Select } from 'antd';
+
 import Header from '../../components/common/Header';
 import { useProductsQuery } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import Launch from '../../components/page/Launch';
 
-const {  Footer, Sider, Content } = Layout;
+const { Footer, Sider, Content } = Layout;
+const { Search } = Input;
 
 const Home = () => {
+  // page layout state
   const [collapsed, setCollapsed] = useState(false);
-  // redux
+  // redux toolkit rtk query state
   const { data, error, isLoading, isFetching } = useProductsQuery();
-
   console.log(data);
-  // navigate
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate('/launche/:id')
-  }
+  // select
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+  };
 
   return (
-    <Layout>
-      <Row>
-      
-
-      {/* <Header className="site-layout-background" style={{ padding: 0 }}>
-        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-          className: 'trigger',
-          onClick: () => setCollapsed(!collapsed),
-        })}
-        <h3>this</h3>
-      </Header> */}
-
-        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
-          <Layout className="site-layout">
-
-            <Sider trigger={null} collapsible collapsed={collapsed}>
-
-              <div className="logo" />
-          
-              <Menu
-                theme="dark"
-                mode="inline"
-                defaultSelectedKeys={['1']}
-                items={[
-                  {
-                    key: '1',
-                    icon: <UserOutlined />,
-                    label: 'nav 1',
-                  },
-                  {
-                    key: '2',
-                    icon: <VideoCameraOutlined />,
-                    label: 'nav 2',
-                  },
-                  {
-                    key: '3',
-                    icon: <UploadOutlined />,
-                    label: 'nav 3',
-                  },
-                ]}
-              />
-            </Sider>
-          </Layout>
-        </Col>
-        <Col xs={2} sm={4} md={6} lg={8} xl={10}>
-          <Layout>
-            <Content
-              className="site-layout-background"
-              style={{
-                margin: '24px 16px',
-                padding: 24,
-                height:"100%"
-                
-              }}
-            >
-              <div>
+    <Row>
+      <Col xs={2} sm={4} md={4} lg={4} xl={4}>
+        {/* sidebar */}
+        <Layout style={{ height: "auto" }}>
+          <Sider
+            breakpoint="lg"
+            collapsedWidth="0"
+            
+            onBreakpoint={(broken) => {
+              console.log(broken);
+            }}
+            onCollapse={(collapsed, type) => {
+              console.log(collapsed, type);
+            }}
+          >
+            <div className="logo" />
+            <Search placeholder="input search text" style={{ width: 200 }} />
+            <Select
+              defaultValue="Last Week"
+              style={{ width: 120 }}
+              onChange={handleChange}
+              options={[
+                {
+                  value: 'Last Week',
+                  label: 'Last Week',
+                },
+                {
+                  value: 'Last Month',
+                  label: 'Last Month',
+                },
+                {
+                  value: 'Last Year',
+                  label: 'Last Year',
+                },
+              ]}
+            />
+            <Menu
+              theme="dark"
+              mode="inline"
+              defaultSelectedKeys={['4']}
+              items={[UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
+                (icon, index) => ({
+                  key: String(index + 1),
+                  icon: React.createElement(icon),
+                  label: `nav ${index + 1}`,
+                }),
+              )}
+            /></Sider>
+        </Layout>
+      </Col>
+      {/* content */}
+      <Col xs={10} sm={8} md={8} lg={8} xl={8}>
+      <Layout>
+        <Content style={{ margin: '24px 16px 0' }}>
+          <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+            <Row>
+              <Col xs={10} sm={8} md={8} lg={8} xl={8}>
                 {
                   data?.map(product => <Launch
                     key={product.flight_number}
                     product={product}
                   />
-
-                    /* return (
-                      <div>
-                        <h1>{product?.flight_number}</h1>
-                        <p>{product?.mission_name}</p>
-                        <p>{product.launch_date_local}</p>
-                        <button onClick={handleClick}></button>
-                      </div>
-                    ) */
                   )
                 }
-              </div>
-            </Content>
-          </Layout>
-        </Col>
-      </Row>
-    </Layout>
+              </Col>
+            </Row>
+          </div>
+        </Content>
+      </Layout>
+      </Col>
+    </Row>
   );
 };
 
