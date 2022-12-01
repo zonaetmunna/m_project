@@ -10,6 +10,8 @@ import { Col, Row } from 'antd';
 import { Layout, Menu } from 'antd';
 import Header from '../../components/common/Header';
 import { useProductsQuery } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
+import Launch from '../../components/page/Launch';
 
 const {  Footer, Sider, Content } = Layout;
 
@@ -17,8 +19,13 @@ const Home = () => {
   const [collapsed, setCollapsed] = useState(false);
   // redux
   const { data, error, isLoading, isFetching } = useProductsQuery();
-  
+
   console.log(data);
+  // navigate
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate('/launche/:id')
+  }
 
   return (
     <Layout>
@@ -78,15 +85,20 @@ const Home = () => {
             >
               <div>
                 {
-                  data?.map(product => {
-                    return (
+                  data?.map(product => <Launch
+                    key={product.flight_number}
+                    product={product}
+                  />
+
+                    /* return (
                       <div>
                         <h1>{product?.flight_number}</h1>
                         <p>{product?.mission_name}</p>
                         <p>{product.launch_date_local}</p>
+                        <button onClick={handleClick}></button>
                       </div>
-                    )
-                  })
+                    ) */
+                  )
                 }
               </div>
             </Content>
