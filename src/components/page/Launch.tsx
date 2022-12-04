@@ -11,9 +11,15 @@ const Launch = ({ product }: { product: Product }) => {
     navigate(`/launche/${flight_number}`);
     console.log(flight_number);
   }
+
+  const gridStyle: React.CSSProperties = {
+  width: '25%',
+  textAlign: 'center',
+};
+
   return (
-     
-    <Card
+    <Card.Grid style={gridStyle}>
+      <Card
       hoverable
       style={{ width: 240 }}
       cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
@@ -27,6 +33,8 @@ const Launch = ({ product }: { product: Product }) => {
       
       </div>
     </Card>
+    </Card.Grid>
+    
   );
 };
 

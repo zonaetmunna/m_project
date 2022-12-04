@@ -8,12 +8,10 @@ import SingleLaunche from './SingleLaunche/SingleLaunche';
 const Layout = () => {
   return (
     <>
-      <Header />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/launche/:id' element={<SingleLaunche />} />
         </Routes>
-      <Footer/>
     </>
   );
 };
